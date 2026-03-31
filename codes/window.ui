@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1106</width>
+    <height>690</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="cali_tab">
+       <attribute name="title">
+        <string>캘리브레이션</string>
+       </attribute>
+       <widget class="QFrame" name="frame_2">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>0</y>
+          <width>281</width>
+          <height>611</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="QLabel" name="cali_status">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>510</y>
+           <width>241</width>
+           <height>61</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>캘리브레이션 준비 중</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="cali_start">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>575</y>
+           <width>171</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>캘리브레이션 실행</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="widget_4" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>231</width>
+           <height>291</height>
+          </rect>
+         </property>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>191</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>캘리브레이션 변수 목록</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>131</width>
+            <height>81</height>
+           </rect>
+          </property>
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>151</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>CHECKERBOARD</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_7">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>20</y>
+             <width>41</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>가로</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_8">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>50</y>
+             <width>41</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>세로</string>
+           </property>
+          </widget>
+          <widget class="QSpinBox" name="board_width">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>20</y>
+             <width>80</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>10</number>
+           </property>
+          </widget>
+          <widget class="QSpinBox" name="board_height">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>50</y>
+             <width>80</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>10</number>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="widget_3" native="true">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>120</y>
+            <width>181</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <widget class="QLabel" name="label_9">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>151</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>SQUARE_SIZE(mm)</string>
+           </property>
+          </widget>
+          <widget class="QSpinBox" name="square_size">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>20</y>
+             <width>80</width>
+             <height>26</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>5</number>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="widget_5" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>261</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <widget class="QPushButton" name="cali_image_upload">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>191</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>이미지 업로드</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cali_image_status">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>181</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>이미지 입력 준비</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="cali_image_path">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>251</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>경로</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>651</width>
+          <height>601</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="QGraphicsView" name="cali_image_view">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>651</width>
+           <height>571</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="cali_image_number">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>580</y>
+           <width>61</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0 / 0</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="widget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>660</x>
+          <y>10</y>
+          <width>120</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <widget class="QPushButton" name="prevImage">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>10</y>
+           <width>81</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>&lt;- 이전</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="nextImage">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>50</y>
+           <width>81</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>다음 -&gt;</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="pnp_tab">
+       <attribute name="title">
+        <string>solvePnP</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
