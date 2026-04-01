@@ -68,28 +68,37 @@ class MainController:
         
         print(f"{self.current_image_index} 번째 이미지")
 
-        current_path = self.image_paths[self.current_image_index]
-        
-        # 현재 경로로 이미지 보여주기
-        utils.display_image(self.view.ui.cali_image_view, current_path)
-        # 경로 텍스트 업데이트
-        self.view.ui.cali_image_path.setText(current_path)
-        # 현재 사진 번호 표시
-        self.view.ui.cali_image_number.setText(f"{self.current_image_index + 1} / {self.image_total}")
+        # utils의 업데이트 수행 함수 호출
+        utils.update_ui_with_image(
+            self.view.ui.cali_image_view, # 이미지 띄울 화면
+            self.view.ui.cali_image_path, # 경로 라벨
+            self.view.ui.cali_image_number, # 이미지 번호 라벨
+            self.image_paths, # 이미지 경로
+            self.current_image_index # 현재 이미지 번호
+        )
 
     # 캘리브레이션 수행
     def on_cali_clicked(self):
+        self.view.ui.cali_status.setText("캘리브레이션 진행 중")
+
         # 이미지 경로 없을시 리턴
         if not self.check_image_loaded():
             return
-        
+
         # 박스들에서 입력값 불러오기
         width = self.view.ui.board_width.value()
         height = self.view.ui.board_height.value()
         sq_size = self.view.ui.square_size.value()
         
         # 입력값들 캘리브레이션에 입력
-        cali.run_calibration(width, height, sq_size, self.image_paths)
+        cali_image_path = cali.run_calibration(width, height, sq_size, self.image_paths)
+
+        # 완료시 캘리브레이션된 이미지 보여주기 및 관련 값 수정
+        self.view.ui.cali_status.setText("캘리브레이션 진행 완료")
+        self.image_paths = cali_image_path
+        self.image_total = len(self.image_paths)
+        self.current_image_index = 0
+        self.update_image_view()
 
     # 이미지 업로드 검사
     def check_image_loaded(self):
