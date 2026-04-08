@@ -1,10 +1,7 @@
 from codes.window import MainWindow, UploadDialog
 import codes.utils as utils
 import codes.cali as cali
-from PySide6.QtCore import QFile
-from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
-from PySide6.QtUiTools import QUiLoader
-import os
+from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox, QGraphicsView
 
 class UploadDialogController:
     # 기본값 선언, 기본값을 "folder"로 하되, 파라미터로 mode를 받을 수 있도록
@@ -72,8 +69,9 @@ class MainController:
         self.view.ui.nextImage.clicked.connect(self.on_next_clicked) # 다음
         self.view.ui.cali_start.clicked.connect(self.on_cali_clicked) # 캘리브레이션 실행
 
-        # cali 이미지 뷰에 대한 줌 가능 처리
-        utils.enable_image_zoom(self.view.ui.cali_image_view)
+        # cali 이미지 뷰에 대한 기능 처리
+        utils.enable_image_zoom(self.view.ui.cali_image_view)                   # 줌 기능
+        self.view.ui.cali_image_view.setDragMode(QGraphicsView.ScrollHandDrag)  # 사진 드래그 기능
 
     # 버튼 클릭에 대한 실제 처리
     # utils, cali, solvepnp 등에게 실제 처리 맡기기
