@@ -79,6 +79,9 @@ class MainController:
         self.view.ui.nextImage.clicked.connect(self.on_next_clicked) # 다음
         self.view.ui.cali_start.clicked.connect(self.on_cali_clicked) # 캘리브레이션 실행
 
+        # cali 이미지 뷰에 대한 줌 가능 처리
+        utils.enable_image_zoom(self.view.ui.cali_image_view)
+
     # 버튼 클릭에 대한 실제 처리
     # utils, cali, solvepnp 등에게 실제 처리 맡기기
     # 이미지 업로드
