@@ -21,3 +21,14 @@ class MainWindow:
         self.ui = loader.load(ui_file)
         
         ui_file.close()
+
+class UploadDialog:
+    def __init__(self, parent=None):
+        # upload_dialog.ui 파일 로드
+        ui_path = os.path.join(os.path.dirname(__file__), "upload_dialog.ui")
+        ui_file = QFile(ui_path)
+        ui_file.open(QFile.ReadOnly)
+        
+        loader = QUiLoader()
+        self.dialog = loader.load(ui_file, parent) 
+        ui_file.close()

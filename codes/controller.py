@@ -1,4 +1,4 @@
-from codes.window import MainWindow
+from codes.window import MainWindow, UploadDialog
 import codes.utils as utils
 import codes.cali as cali
 from PySide6.QtCore import QFile
@@ -9,42 +9,35 @@ import os
 class UploadDialogController:
     # 기본값 선언, 기본값을 "folder"로 하되, 파라미터로 mode를 받을 수 있도록
     def __init__(self, parent=None, mode="folder"):
-        # upload_dialog.ui 파일 로드
-        ui_path = os.path.join(os.path.dirname(__file__), "upload_dialog.ui")
-        ui_file = QFile(ui_path)
-        ui_file.open(QFile.ReadOnly)
-        
-        loader = QUiLoader()
-        self.dialog = loader.load(ui_file, parent) 
-        ui_file.close()
+        self.view = UploadDialog(parent)
 
         # 결과 저장용 데이터 변수
         self.mode = mode           # 현재 모드 ("folder" 또는 "file")
         self.selected_path = ""    # 폴더든 파일이든 선택된 경로를 저장
-        self.dialog.radio_left.setChecked(True) # 이미지 방향 기본값 왼쪽으로 설정
+        self.view.dialog.radio_left.setChecked(True) # 이미지 방향 기본값 왼쪽으로 설정
         self.is_left = True
 
         # 모드에 따라 창 제목과 안내 문구를 다르게 설정
         if self.mode == "folder":
-            self.dialog.setWindowTitle("이미지 폴더 및 방향 설정")
-            self.dialog.path_input.setPlaceholderText("이미지 폴더를 선택하세요...")
+            self.view.dialog.setWindowTitle("이미지 폴더 및 방향 설정")
+            self.view.dialog.path_input.setPlaceholderText("이미지 폴더를 선택하세요...")
         else:
-            self.dialog.setWindowTitle("단일 이미지 및 방향 설정")
-            self.dialog.path_input.setPlaceholderText("이미지 파일을 선택하세요...")
+            self.view.dialog.setWindowTitle("단일 이미지 및 방향 설정")
+            self.view.dialog.path_input.setPlaceholderText("이미지 파일을 선택하세요...")
 
         # 이벤트 연결
-        self.dialog.btn_open.clicked.connect(self.on_open_clicked)
-        self.dialog.btn_confirm.clicked.connect(self.on_confirm_clicked)
-        self.dialog.btn_cancel.clicked.connect(self.dialog.reject)
+        self.view.dialog.btn_open.clicked.connect(self.on_open_clicked)
+        self.view.dialog.btn_confirm.clicked.connect(self.on_confirm_clicked)
+        self.view.dialog.btn_cancel.clicked.connect(self.view.dialog.reject)
 
     def on_open_clicked(self):
         # 모드에 따라 탐색기의 종류(폴더 vs 파일)를 다르게 띄우도록
         if self.mode == "folder":
-            path = QFileDialog.getExistingDirectory(self.dialog, "이미지 폴더 선택")
+            path = QFileDialog.getExistingDirectory(self.view.dialog, "이미지 폴더 선택")
         else:
             # 파일 모드
             path, _ = QFileDialog.getOpenFileName(
-                self.dialog, 
+                self.view.dialog, 
                 "이미지 파일 선택", 
                 "", 
                 "Image Files (*.png *.jpg *.jpeg *.bmp)"
@@ -52,15 +45,15 @@ class UploadDialogController:
 
         if path:
             self.selected_path = path
-            self.dialog.path_input.setText(path)
+            self.view.dialog.path_input.setText(path)
 
     def on_confirm_clicked(self):
         if not self.selected_path:
-            QMessageBox.warning(self.dialog, "경고", "열기 버튼을 눌러 경로를 먼저 지정해주세요!")
+            QMessageBox.warning(self.view.dialog, "경고", "열기 버튼을 눌러 경로를 먼저 지정해주세요!")
             return
 
-        self.is_left = self.dialog.radio_left.isChecked()
-        self.dialog.accept()
+        self.is_left = self.view.dialog.radio_left.isChecked()
+        self.view.dialog.accept()
 
 class MainController:
     def __init__(self):
@@ -90,7 +83,7 @@ class MainController:
         # 다이얼로그 컨트롤러 생성, 모드 전달
         upload_popup = UploadDialogController(self.view.ui, mode=mode)
         
-        if upload_popup.dialog.exec() == QDialog.Accepted:
+        if upload_popup.view.dialog.exec() == QDialog.Accepted:
             selected_path = upload_popup.selected_path
             direction = "L" if upload_popup.is_left else "R"
             
