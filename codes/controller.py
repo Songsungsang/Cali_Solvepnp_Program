@@ -1,6 +1,48 @@
 from codes.window import MainWindow
 import codes.utils as utils
 import codes.cali as cali
+from PySide6.QtCore import QFile
+from PySide6.QtWidgets import QDialog, QFileDialog, QMessageBox
+from PySide6.QtUiTools import QUiLoader
+import os
+
+class UploadDialogController:
+    def __init__(self, parent=None):
+        # 1. upload_dialog.ui 파일 로드하기
+        ui_path = os.path.join(os.path.dirname(__file__), "upload_dialog.ui")
+        ui_file = QFile(ui_path)
+        ui_file.open(QFile.ReadOnly)
+        
+        loader = QUiLoader()
+        self.dialog = loader.load(ui_file, parent) 
+        ui_file.close()
+
+        # 이 self.dialog가 바로 화면에 뜰 팝업창 객체입니다. (parent를 넣어 중앙에 뜨게 함)
+        self.dialog.radio_left.setChecked(True)
+
+        # 2. 결과 데이터 저장용 변수
+        self.folder_path = ""
+        self.is_left = True
+
+        # 3. 이벤트 연결 (Designer에서 지어준 objectName 사용)
+        self.dialog.btn_open.clicked.connect(self.on_open_clicked)
+        self.dialog.btn_confirm.clicked.connect(self.on_confirm_clicked)
+        self.dialog.btn_cancel.clicked.connect(self.dialog.reject) # 취소 누르면 창 닫기
+
+    def on_open_clicked(self):
+        folder = QFileDialog.getExistingDirectory(self.dialog, "이미지 폴더 선택")
+        if folder:
+            self.folder_path = folder
+            self.dialog.path_input.setText(folder) # ui의 QLineEdit에 경로 글자 쓰기
+
+    def on_confirm_clicked(self):
+        if not self.folder_path:
+            QMessageBox.warning(self.dialog, "경고", "열기 버튼을 눌러 폴더를 먼저 선택해주세요!")
+            return
+
+        # 확인 버튼을 누르면 라디오 버튼 상태를 변수에 저장하고 창 닫기 (성공 상태로)
+        self.is_left = self.dialog.radio_left.isChecked()
+        self.dialog.accept()
 
 class MainController:
     def __init__(self):
@@ -23,8 +65,18 @@ class MainController:
     # utils, cali, solvepnp 등에게 실제 처리 맡기기
     # 이미지 업로드
     def on_upload_clicked(self):
-        # handle_upload 실행, 결과인 이미지 경로 받아오기
-        paths = utils.handle_upload(self.view.ui)
+        # 1. 방금 만든 다이얼로그 컨트롤러 생성
+        upload_popup = UploadDialogController(self.view.ui)
+        
+        # 2. 창을 띄우고(exec), 사용자가 '확인'을 눌러서 성공(Accepted)했는지 체크
+        if upload_popup.dialog.exec() == QDialog.Accepted:
+            
+            # 팝업창 안에 저장된 데이터 뽑아오기
+            paths = utils.get_images_from_folder(upload_popup.folder_path)
+            self.left_or_right = "L" if upload_popup.is_left else "R"
+            
+            print(f"📂 설정된 폴더: {paths}")
+            print(f"📷 설정된 카메라 방향: {self.left_or_right}")
 
         # 결과가 있다면 UI 업데이트
         if paths:
@@ -67,15 +119,15 @@ class MainController:
             return
         
         print(f"{self.current_image_index} 번째 이미지")
+        # 현재 경로와 이미지 전체 숫자
+        current_path = self.image_paths[self.current_image_index]
+        total_count = len(self.image_paths)
 
-        # utils의 업데이트 수행 함수 호출
-        utils.update_ui_with_image(
-            self.view.ui.cali_image_view, # 이미지 띄울 화면
-            self.view.ui.cali_image_path, # 경로 라벨
-            self.view.ui.cali_image_number, # 이미지 번호 라벨
-            self.image_paths, # 이미지 경로
-            self.current_image_index # 현재 이미지 번호
-        )
+        # 이미지 표시
+        utils.display_image(self.view.ui.cali_image_view, current_path)
+        # 경로와 사진 번호 텍스트 업데이트
+        self.view.ui.cali_image_path.setText(current_path)
+        self.view.ui.cali_image_number.setText(f"{self.current_image_index + 1} / {total_count}")
 
     # 캘리브레이션 수행
     def on_cali_clicked(self):
@@ -89,9 +141,10 @@ class MainController:
         width = self.view.ui.board_width.value()
         height = self.view.ui.board_height.value()
         sq_size = self.view.ui.square_size.value()
+        left_right = self.left_or_right
         
         # 입력값들 캘리브레이션에 입력
-        cali_image_path = cali.run_calibration(width, height, sq_size, self.image_paths)
+        cali_image_path = cali.run_calibration(width, height, sq_size, left_right, self.image_paths)
 
         # 완료시 캘리브레이션된 이미지 보여주기 및 관련 값 수정
         self.view.ui.cali_status.setText("캘리브레이션 진행 완료")

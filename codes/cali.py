@@ -3,7 +3,7 @@ import numpy as np
 import os
 from datetime import datetime
 
-def run_calibration(width, height, square_size, image_paths):
+def run_calibration(width, height, square_size, left_right, image_paths):
 
     CHECKERBOARD = (width, height)
 
@@ -19,7 +19,7 @@ def run_calibration(width, height, square_size, image_paths):
     formatted_time = now.strftime("%Y%m%d_%H%M%S") # YYYY-MM-DD-HH-MM-SS
     
     # 결과물이 들어갈 폴더
-    result_folder = "result/calibration/" + formatted_time
+    result_folder = "result/calibration/" + formatted_time + f"_{left_right}"
     # 결과폴더 생성
     os.makedirs(result_folder, exist_ok=True)
 
@@ -53,8 +53,8 @@ def run_calibration(width, height, square_size, image_paths):
             print("Image drawing...!")
             #resized_img = cv2.resize(img, (1000, 750))
             # 저장할 파일명 구성
-            # i는 0부터 시작하므로 1부터 시작하고 싶다면 i+1을 사용하세요.
-            save_path = os.path.join(result_folder, f'image_{formatted_time}_{i}.jpg')
+            base_file_name = os.path.basename(fname)
+            save_path = os.path.join(result_folder, f"{left_right}_" + base_file_name)
 
             # 3. 이미지 저장
             cv2.imwrite(save_path, img)

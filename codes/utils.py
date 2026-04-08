@@ -9,61 +9,19 @@ from PySide6.QtWidgets import QFileDialog, QMessageBox, QGraphicsScene
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
-def handle_upload(parent_window):
+def get_images_from_folder(folder_path):
     """
-    사용자에게 파일/폴더 선택 여부를 묻고, 
-    선택된 이미지 파일들의 절대 경로 리스트를 반환합니다.
+    주어진 폴더 경로 안에서 이미지 파일들만 찾아 절대 경로 리스트로 반환합니다.
     """
-    # 1. 사용자에게 업로드 방식 묻기 (작은 팝업창)
-    msg_box = QMessageBox(parent_window)
-    msg_box.setWindowTitle("업로드 방식 선택")
-    msg_box.setText("이미지를 어떻게 불러오시겠습니까?")
-    
-    # 버튼 2개 추가
-    btn_files = msg_box.addButton("파일 여러 개 선택", QMessageBox.ActionRole)
-    btn_folder = msg_box.addButton("폴더 통째로 선택", QMessageBox.ActionRole)
-    msg_box.addButton("취소", QMessageBox.RejectRole)
-    
-    msg_box.exec() # 팝업 띄우고 대기
-    
     file_paths = []
-
-    # 2-A. [파일 여러 개 선택]을 누른 경우
-    if msg_box.clickedButton() == btn_files:
-        print("[utils.py] 다중 파일 선택 모드")
-        paths, _ = QFileDialog.getOpenFileNames(
-            parent_window, 
-            "이미지 파일 선택", 
-            "", 
-            "Image Files (*.png *.jpg *.jpeg *.bmp)"
-        )
-        file_paths = paths
-
-    # 2-B. [폴더 통째로 선택]을 누른 경우
-    elif msg_box.clickedButton() == btn_folder:
-        print("[utils.py] 폴더 선택 모드")
-        folder_path = QFileDialog.getExistingDirectory(
-            parent_window, 
-            "이미지 폴더 선택"
-        )
-        
-        if folder_path:
-            # 폴더 안에서 이미지 확장자를 가진 파일만 걸러내기
-            valid_extensions = ('.png', '.jpg', '.jpeg', '.bmp')
-            for file_name in os.listdir(folder_path):
-                if file_name.lower().endswith(valid_extensions):
-                    # 파일의 절대 경로를 만들어서 리스트에 추가
-                    full_path = os.path.join(folder_path, file_name)
-                    # 윈도우 역슬래시(\)를 슬래시(/)로 통일하여 경로 에러 방지
-                    file_paths.append(full_path.replace('\\', '/'))
-
-    # 3. 결과 정리
-    if file_paths:
-        print(f"[utils.py] 총 {len(file_paths)}장의 이미지를 성공적으로 찾았습니다.")
-    else:
-        print("[utils.py] 이미지 로딩이 취소되었거나 파일이 없습니다.")
-
-    # 컨트롤러에게 경로 리스트(List) 반환
+    valid_extensions = ('.png', '.jpg', '.jpeg', '.bmp')
+    
+    if os.path.exists(folder_path):
+        for file_name in os.listdir(folder_path):
+            if file_name.lower().endswith(valid_extensions):
+                full_path = os.path.join(folder_path, file_name)
+                file_paths.append(full_path.replace('\\', '/'))
+                
     return file_paths
 
 def display_image(graphics_view, image_path):
@@ -89,23 +47,6 @@ def display_image(graphics_view, image_path):
     
     # 5. 이미지가 뷰어 크기에 딱 맞게 자동 축소/확대되도록 설정 (비율 유지)
     graphics_view.fitInView(scene.itemsBoundingRect(), Qt.KeepAspectRatio)
-
-# 이미지, 경로, 이미지 번호 등을 한번에 업데이트
-def update_ui_with_image(view_widget, path_widget, number_widget, image_paths, current_index):
-    if not image_paths or current_index < 0 or current_index >= len(image_paths):
-        return
-    
-    current_path = image_paths[current_index]
-    total_count = len(image_paths)
-
-    # 1. 이미지 표시 (이미 있는 display_image 재사용)
-    display_image(view_widget, current_path)
-    
-    # 2. 경로 텍스트 업데이트
-    path_widget.setText(current_path)
-    
-    # 3. 사진 번호 표시 (ex: 1 / 15)
-    number_widget.setText(f"{current_index + 1} / {total_count}")
 
 # 특정 오류시 경고 팝업 띄우기
 def show_warning_msg(parent_window, title, message):
