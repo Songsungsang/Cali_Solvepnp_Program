@@ -57,9 +57,9 @@
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>510</y>
+           <y>550</y>
            <width>241</width>
-           <height>61</height>
+           <height>21</height>
           </rect>
          </property>
          <property name="text">
@@ -216,9 +216,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>190</y>
+            <y>180</y>
             <width>256</width>
-            <height>111</height>
+            <height>121</height>
            </rect>
           </property>
           <property name="html">
@@ -229,12 +229,17 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'맑은 고딕'; font-size:12pt; font-weight:700; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;마우스 휠=줌인/줌아웃&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;이미지 조작&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;--------------------------------&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;마우스 휠 = 줌인/줌아웃&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;좌클릭+움직임=이미지 드래그&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </widget>
         <widget class="QWidget" name="widget_5" native="true">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -242,6 +247,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
            <width>261</width>
            <height>141</height>
           </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::LeftToRight</enum>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
          </property>
          <widget class="QPushButton" name="cali_image_upload">
           <property name="geometry">
@@ -367,6 +378,176 @@ li.checked::marker { content: &quot;\2612&quot;; }
        <attribute name="title">
         <string>solvePnP</string>
        </attribute>
+       <widget class="QFrame" name="frame_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>651</width>
+          <height>601</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="QGraphicsView" name="pnp_image_view">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>651</width>
+           <height>571</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_4">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>0</y>
+          <width>281</width>
+          <height>611</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="QLabel" name="pnp_status">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>540</y>
+           <width>241</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>solvepnp 준비 중</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pnp_start">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>575</y>
+           <width>171</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>solvepnp 실행</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="widget_10" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>231</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <widget class="QLabel" name="label_14">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>191</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>좌표 모음</string>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="widget_13" native="true">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>261</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <widget class="QPushButton" name="pnp_image_upload">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>191</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>이미지 업로드</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pnp_image_status">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>181</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>이미지 입력 준비</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="pnp_image_path">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>251</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>경로</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QTextBrowser" name="textBrowser_3">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>400</y>
+           <width>256</width>
+           <height>141</height>
+          </rect>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="html">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'맑은 고딕'; font-size:12pt; font-weight:700; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;이미지 조작&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;--------------------------------&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;마우스 휠=줌인/줌아웃&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;좌클릭+움직임=이미지 드래그&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;좌클릭+Ctrl = 포인트 찍기&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </item>

@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import os
+import json
 from datetime import datetime
 
 def run_calibration(width, height, square_size, left_right, image_paths):
@@ -94,6 +95,21 @@ def run_calibration(width, height, square_size, left_right, image_paths):
     print("tvecs : \n")
     print(tvecs)
     print("----------- \n\n")
+
+    # 내부 파라미터 json 파일로 저장
+    intrinsic_folder = f"result/intrinsic_parameters/{formatted_time}_{left_right}"
+    os.makedirs(intrinsic_folder, exist_ok=True) # 결과물 폴더 생성
+    calib_data = {
+        "camera_matrix": mtx.tolist(), # 카메라 행렬
+        "dist_coeffs": dist.tolist()   # 왜곡계수
+    }
+    json_filename = f"{left_right}_intrinsic_{formatted_time}.json"
+    json_path = os.path.join(intrinsic_folder, json_filename)
+
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(calib_data, f, indent=4)
+
+    print(f"내부 파라미터 JSON 저장 완료: {json_path}")
 
     # 폴더 안에서 이미지 확장자를 가진 파일만 걸러내기
     file_paths = []
