@@ -16,11 +16,11 @@ class UploadDialogController:
 
         # 모드에 따라 창 제목과 안내 문구를 다르게 설정
         if self.mode == "folder":
-            self.view.dialog.setWindowTitle("이미지 폴더 및 방향 설정")
-            self.view.dialog.path_input.setPlaceholderText("이미지 폴더를 선택하세요...")
+            self.view.dialog.path_input.setText("이미지 폴더를 선택하세요")
+            self.view.dialog.setWindowTitle("이미지 폴더 경로 및 방향 설정")
         else:
-            self.view.dialog.setWindowTitle("단일 이미지 및 방향 설정")
-            self.view.dialog.path_input.setPlaceholderText("이미지 파일을 선택하세요...")
+            self.view.dialog.path_input.setText("이미지 파일을 선택하세요")
+            self.view.dialog.setWindowTitle("단일 이미지 경로 및 방향 설정")
 
         # 이벤트 연결
         self.view.dialog.btn_open.clicked.connect(self.on_open_clicked)
@@ -62,16 +62,23 @@ class MainController:
         self.image_total = 0  # 총 이미지 수 초기화
         self.current_image_index = 0 # 현재 인덱스 초기화
 
-        # 캘리브레이션 탭의 버튼들에 대한 처리
         # 버튼 클릭시 이 이벤트로 연결 
+        # 캘리브레이션 탭의 버튼들에 대한 처리
         self.view.ui.cali_image_upload.clicked.connect(self.on_cali_upload_clicked) # 이미지 업로드
         self.view.ui.prevImage.clicked.connect(self.on_prev_clicked) # 이전
         self.view.ui.nextImage.clicked.connect(self.on_next_clicked) # 다음
         self.view.ui.cali_start.clicked.connect(self.on_cali_clicked) # 캘리브레이션 실행
 
+        # solvepnp 탭의 버튼들에 대한 처리
+        self.view.ui.pnp_image_upload.clicked.connect(self.on_pnp_upload_clicked) # 이미지 업로드
+
         # cali 이미지 뷰에 대한 기능 처리
         utils.enable_image_zoom(self.view.ui.cali_image_view)                   # 줌 기능
         self.view.ui.cali_image_view.setDragMode(QGraphicsView.ScrollHandDrag)  # 사진 드래그 기능
+
+        # sovepnp 이미지 뷰에 대한 기능 처리
+        utils.enable_image_zoom(self.view.ui.pnp_image_view)                   # 줌 기능
+        self.view.ui.pnp_image_view.setDragMode(QGraphicsView.ScrollHandDrag)  # 사진 드래그 기능
 
     # 버튼 클릭에 대한 실제 처리
     # utils, cali, solvepnp 등에게 실제 처리 맡기기
@@ -115,6 +122,20 @@ class MainController:
             self.view.ui.cali_image_path.setText(self.image_paths[0])
             self.view.ui.cali_image_number.setText(f"1 / {self.image_total}")
             utils.display_image(self.view.ui.cali_image_view, self.image_paths[0])
+
+    # solvepnp 이미지 업로드, 파일 입력
+    def on_pnp_upload_clicked(self):
+        # 파일 모드로 이미지 업로드
+        path, direction = self.open_upload_dialog(mode="file")
+        
+        if path:
+            self.image_path = path
+            self.pnp_left_right = direction
+            
+            # (기존 UI 업데이트 로직 실행)
+            self.view.ui.pnp_image_status.setText(f"이미지 업로드 완료 ({'왼쪽' if direction=='L' else '오른쪽'})")
+            self.view.ui.pnp_image_path.setText(self.image_path[0])
+            utils.display_image(self.view.ui.pnp_image_view, self.image_path[0])
 
     def on_prev_clicked(self):
         # 이미지가 없거나, 이미 첫 번째 번호면 무시

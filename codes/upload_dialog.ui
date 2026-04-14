@@ -46,7 +46,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>이미지 파일 경로</string>
+    <string>이미지 경로</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
